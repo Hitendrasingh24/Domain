@@ -1,17 +1,16 @@
 const https = require('https');
 
 const apiKey = 'at_LDdS5hSmKoNUVG5j6whjj85yolJ6e';
-const domainsToCheck = [
-  'google.com',
-  'axsolab.com',
+const domainsToCheck =[
   'example3sdasd.com',
   'exampleasdas4.io',
   'examplesdasd5.xyz',
-  'exampleasdasd6.co'
+  'exampleasdasd6.co',
+  'NewsWave.in',
+  'indiaDaily.in'
 ]; // Replace with your desired domains
 
 const availableDomains = [];
-
 
 function Availability(domainName) {
 const options = {
@@ -22,14 +21,16 @@ const options = {
 };
 
 const req = https.request(options, (res) => {
-const numbers = new Array();
+const boole = new Array();
   res.on('data', (d) => {
     const ar = String(d);
-    numbers.push(ar.length)
+    if(ar.includes("MISSING_WHOIS_DATA")){
+      boole.push(false);
+  }
   });
 
   res.on('end', () => {
-    if (numbers.length< 10){
+    if (boole.length > 0){
       console.log(domainName)
     }
   });
@@ -40,3 +41,4 @@ req.on('error', (error) => {
 req.end();
 }
 domainsToCheck.forEach(Availability);
+
